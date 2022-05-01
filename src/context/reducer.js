@@ -8,11 +8,13 @@ import {
 export default (state, action) => {
   switch (action.type) {
     case LOAD_FISHES:
-      return { ...state, fishes: action.payload }
+      return { ...state, fishes: { ...state.fishes, ...action.payload } }
     case ADD_FISH:
-      return { ...state, fishes: { ...state.fishes, action.payload } }
+      return { ...state, fishes: { ...state.fishes, ...action.payload } }
     case ADD_TO_ORDER:
-      return { ...state } // Todo 
+      return { ...state }
+    case REMOVE_FROM_ORDER:
+      return { ...state }
     default:
       return state
   }

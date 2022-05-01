@@ -1,6 +1,6 @@
 import { formatPrice } from '../utils/helpers'
 
-function Fish({ index, name, image, price, description, status, order }) {
+function Fish({ name, image, price, desc: description, status }) {
   const isAvailable = status === 'available'
 
   return (

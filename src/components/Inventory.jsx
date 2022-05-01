@@ -3,14 +3,22 @@ import { FishContext } from '../context/FishContext'
 import { LOAD_FISHES } from '../context/action.types'
 import sampleFishes from '../utils/sample-fishes'
 import AddFishForm from './AddFishForm'
+import { useParams } from 'react-router-dom'
+import { ref, set } from 'firebase/database'
+import { db } from '../config/firebase.config'
 
 function Inventory() {
-  const { state, dispatch } = useContext(FishContext)
+  const { dispatch } = useContext(FishContext)
+  const { storeID } = useParams()
 
   const loadSample = () => {
     dispatch({
       type: LOAD_FISHES,
       payload: sampleFishes,
+    })
+    Object.keys(sampleFishes).map(key => {
+      const dbRef = ref(db, `${storeID}/fishes/${key}`)
+      set(dbRef, sampleFishes[key])
     })
   }
 

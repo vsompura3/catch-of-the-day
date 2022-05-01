@@ -2,9 +2,13 @@ import { useContext, useRef } from 'react'
 import { FishContext } from '../context/FishContext'
 import { v4 } from 'uuid'
 import { ADD_FISH } from '../context/action.types'
+import { db } from '../config/firebase.config'
+import { ref, set } from 'firebase/database'
+import { useParams } from 'react-router-dom'
 
 function AddFishForm() {
   const { dispatch } = useContext(FishContext)
+  const { storeID } = useParams()
 
   const formRef = useRef(null)
   const nameRef = useRef(null)
@@ -15,8 +19,9 @@ function AddFishForm() {
 
   const createFish = e => {
     e.preventDefault()
+    const fishID = `fish-${v4()}`
     const fish = {
-      [`fish-${v4()}`]: {
+      [fishID]: {
         name: nameRef.current.value,
         price: priceRef.current.value,
         status: statusRef.current.value,
@@ -29,6 +34,11 @@ function AddFishForm() {
       type: ADD_FISH,
       payload: fish,
     })
+
+    const dbRef = ref(db, `${storeID}/fishes/${fishID}`)
+    set(dbRef, fish[fishID])
+
+    console.log(fish)
     formRef.current.reset()
     nameRef.current.focus()
   }
