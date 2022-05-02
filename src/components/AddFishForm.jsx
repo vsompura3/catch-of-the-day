@@ -34,11 +34,8 @@ function AddFishForm() {
       type: ADD_FISH,
       payload: fish,
     })
-
     const dbRef = ref(db, `${storeID}/fishes/${fishID}`)
     set(dbRef, fish[fishID])
-
-    console.log(fish)
     formRef.current.reset()
     nameRef.current.focus()
   }
