@@ -1,3 +1,4 @@
+export const LOGIN_AND_LOGOUT = 'LOGIN_AND_LOGOUT'
 export const LOAD_FISHES = 'LOAD_FISHES'
 export const ADD_FISH = 'ADD_FISH'
 export const ADD_TO_ORDER = 'ADD_TO_ORDER'

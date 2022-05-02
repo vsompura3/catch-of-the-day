@@ -11,22 +11,24 @@ import { ADD_FISH, ADD_FROM_LOCALSTORAGE } from '../context/action.types'
 
 function Home() {
   const { state, dispatch } = useContext(FishContext)
-  const { fishes, order } = state
+  const { fishes, order, user } = state
   const { storeID } = useParams()
 
   useEffect(() => {
-    const dbRef = ref(db, `${storeID}/fishes/`)
-    const unsub = onValue(dbRef, snapshot => {
-      const data = snapshot.val()
-      dispatch({
-        type: ADD_FISH,
-        payload: data,
+    if (user) {
+      const dbRef = ref(db, `${storeID}/fishes/`)
+      const unsub = onValue(dbRef, snapshot => {
+        const data = snapshot.val()
+        dispatch({
+          type: ADD_FISH,
+          payload: data,
+        })
       })
-    })
-    return () => {
-      unsub()
+      return () => {
+        unsub()
+      }
     }
-  }, [storeID])
+  }, [storeID, user])
 
   useEffect(() => {
     const localStorageRef = JSON.parse(localStorage.getItem(`order-${storeID}`))
@@ -46,11 +48,13 @@ function Home() {
     <div className="catch-of-the-day">
       <div className="menu">
         <Header tagline="Fresh Seafood Market" />
-        <ul className="list-of-fishes">
-          {Object.keys(fishes).map(key => (
-            <Fish key={key} id={key} {...fishes[key]} />
-          ))}
-        </ul>
+        {user && (
+          <ul className="list-of-fishes">
+            {Object.keys(fishes).map(key => (
+              <Fish key={key} id={key} {...fishes[key]} />
+            ))}
+          </ul>
+        )}
       </div>
       <Order />
       <Inventory />

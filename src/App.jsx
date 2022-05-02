@@ -10,6 +10,7 @@ function App() {
   const [state, dispatch] = useReducer(reducer, {
     fishes: {},
     order: {},
+    user: null,
   })
 
   return (
