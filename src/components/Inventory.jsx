@@ -1,16 +1,16 @@
+import { GithubAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
+import { ref, remove, set } from 'firebase/database'
 import { useContext } from 'react'
-import { FishContext } from '../context/FishContext'
+import { useParams } from 'react-router-dom'
+import { auth, db, provider } from '../config/firebase.config'
 import {
   LOAD_FISHES,
   LOGIN_AND_LOGOUT,
   REMOVE_FISH,
 } from '../context/action.types'
+import { FishContext } from '../context/FishContext'
 import sampleFishes from '../utils/sample-fishes'
 import AddFishForm from './AddFishForm'
-import { useParams } from 'react-router-dom'
-import { ref, remove, set } from 'firebase/database'
-import { auth, db, provider } from '../config/firebase.config'
-import { signInWithPopup, GithubAuthProvider, signOut } from 'firebase/auth'
 
 function Inventory() {
   const { state, dispatch } = useContext(FishContext)
@@ -124,7 +124,12 @@ function Inventory() {
         })
       })
       .catch(error => {
-        console.log(error)
+        const errorCode = error.code
+        const errorMessage = error.message
+        // The email of the user's account used.
+        const email = error.customData.email
+        // The AuthCredential type that was used.
+        const credential = GithubAuthProvider.credentialFromError(error)
       })
   }
 

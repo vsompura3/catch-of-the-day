@@ -1,7 +1,5 @@
-# Vite React App
+# Catch-of-the-day
 
-Create a react app with `npm init vite`
+## A React Firebase app
 
-## Catch-of-the-day
-
-Wes Bos React for Beginners Project
+A project by Wes Bos, Coded by Vaibhav Sompura with React 18 and Firebase 9.
